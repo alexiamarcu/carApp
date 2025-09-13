@@ -19,7 +19,7 @@ public class InsurancePolicy {
     private LocalDate startDate;
 
 //    @Column(nullable = false)
-    @NotNull(message = "end date must be mentioned")
+//    @NotNull(message = "end date must be mentioned")
     private LocalDate endDate; // nullable == open-ended
 
     public InsurancePolicy() {}

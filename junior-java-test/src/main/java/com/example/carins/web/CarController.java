@@ -7,13 +7,18 @@ import com.example.carins.web.dto.CarDto;
 import com.example.carins.web.dto.InsuranceClaimCreateDto;
 import com.example.carins.web.dto.InsuranceClaimDto;
 import com.example.carins.web.dto.InsurancePolicyDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.List;
+
+import static org.springframework.http.ResponseEntity.badRequest;
 
 @RestController
 @RequestMapping("/api")
@@ -32,11 +37,32 @@ public class CarController {
 
     @GetMapping("/cars/{carId}/insurance-valid")
     public ResponseEntity<?> isInsuranceValid(@PathVariable Long carId, @RequestParam String date) {
-        // TODO: validate date format and handle errors consistently
-        LocalDate d = LocalDate.parse(date);
+        if (date == null || !date.matches("^\\d{4}-\\d{2}-\\d{2}$")) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Invalid date format. Expected YYYY-MM-DD."
+            );
+        }
+
+        LocalDate d;
+        try {
+            d = LocalDate.parse(date);
+        } catch (DateTimeParseException ex) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Invalid date value: " + date + ". Provide a real calendar date in YYYY-MM-DD.");
+        }
+
+        LocalDate MIN_SUPPORTED_DATE = LocalDate.of(2024, 1, 1);
+        LocalDate MAX_SUPPORTED_DATE = LocalDate.of(2026, 1, 1);
+
+        if (d.isBefore(MIN_SUPPORTED_DATE) || d.isAfter(MAX_SUPPORTED_DATE)) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST, "Date out of supported range (" + MIN_SUPPORTED_DATE + " to " + MAX_SUPPORTED_DATE + ").");
+        }
         boolean valid = service.isInsuranceValid(carId, d);
         return ResponseEntity.ok(new InsuranceValidityResponse(carId, d.toString(), valid));
     }
+
     @PostMapping("/cars/{carId}/claims")
     public ResponseEntity<InsuranceClaimDto> registerClaim(
             @PathVariable Long carId,
