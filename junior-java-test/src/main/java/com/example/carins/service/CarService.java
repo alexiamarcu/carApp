@@ -1,6 +1,7 @@
 package com.example.carins.service;
 
 import com.example.carins.model.Car;
+import com.example.carins.model.InsurancePolicy;
 import com.example.carins.repo.CarRepository;
 import com.example.carins.repo.InsurancePolicyRepository;
 import org.springframework.stereotype.Service;
@@ -28,4 +29,6 @@ public class CarService {
         // TODO: optionally throw NotFound if car does not exist
         return policyRepository.existsActiveOnDate(carId, date);
     }
+
+
 }

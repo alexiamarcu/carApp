@@ -1,8 +1,10 @@
 package com.example.carins.web;
 
 import com.example.carins.model.Car;
+import com.example.carins.model.InsurancePolicy;
 import com.example.carins.service.CarService;
 import com.example.carins.web.dto.CarDto;
+import com.example.carins.web.dto.InsurancePolicyDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +33,7 @@ public class CarController {
         boolean valid = service.isInsuranceValid(carId, d);
         return ResponseEntity.ok(new InsuranceValidityResponse(carId, d.toString(), valid));
     }
+
 
     private CarDto toDto(Car c) {
         var o = c.getOwner();

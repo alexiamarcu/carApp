@@ -1,6 +1,8 @@
 package com.example.carins.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+
 import java.time.LocalDate;
 
 @Entity
@@ -11,14 +13,19 @@ public class InsurancePolicy {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Car car;
-
+    @Column(nullable = false)
     private String provider;
+    @Column(nullable = false)
     private LocalDate startDate;
+
+//    @Column(nullable = false)
+    @NotNull(message = "end date must be mentioned")
     private LocalDate endDate; // nullable == open-ended
 
     public InsurancePolicy() {}
     public InsurancePolicy(Car car, String provider, LocalDate startDate, LocalDate endDate) {
         this.car = car; this.provider = provider; this.startDate = startDate; this.endDate = endDate;
+//        if (endDate==null) this.endDate = startDate.plusYears(1);
     }
 
     public Long getId() { return id; }
