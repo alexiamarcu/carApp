@@ -27,7 +27,6 @@ public class InsurancePolicy {
     public InsurancePolicy() {}
     public InsurancePolicy(Car car, String provider, LocalDate startDate, LocalDate endDate) {
         this.car = car; this.provider = provider; this.startDate = startDate; this.endDate = endDate;
-//        if (endDate==null) this.endDate = startDate.plusYears(1);
     }
 
     public Long getId() { return id; }

@@ -2,7 +2,6 @@ package com.example.carins.service;
 
 import com.example.carins.model.Car;
 import com.example.carins.model.InsuranceClaim;
-import com.example.carins.model.InsurancePolicy;
 import com.example.carins.repo.CarRepository;
 import com.example.carins.repo.InsuranceClaimRepository;
 import com.example.carins.repo.InsurancePolicyRepository;
@@ -13,7 +12,6 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.springframework.http.ResponseEntity.notFound;
 
 @Service
 public class CarService {
@@ -48,5 +46,10 @@ public class CarService {
         carRepository.findById(carId).orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Car not found"));
         return claimRepository.findByCarIdOrderByClaimDateAsc(carId);
+    }
+
+    public Car findById(Long id) {
+        return carRepository.findById(id).orElseThrow(() ->
+                new ResponseStatusException(HttpStatus.NOT_FOUND, "Car not found"));
     }
 }
