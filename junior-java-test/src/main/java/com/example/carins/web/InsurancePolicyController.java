@@ -24,7 +24,8 @@ public class InsurancePolicyController {
                         p.getCar().getId(),
                         p.getProvider(),
                         p.getStartDate().toString(),
-                        p.getEndDate().toString()
+                        p.getEndDate().toString(),
+                        p.isExpiryNotified()
                 ))
                 .toList();
     }

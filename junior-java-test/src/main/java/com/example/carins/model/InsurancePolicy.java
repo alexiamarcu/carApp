@@ -19,8 +19,10 @@ public class InsurancePolicy {
     private LocalDate startDate;
 
 //    @Column(nullable = false)
-//    @NotNull(message = "end date must be mentioned")
     private LocalDate endDate; // nullable == open-ended
+
+    @Column(nullable = false)
+    private boolean expiryNotified = false;
 
     public InsurancePolicy() {}
     public InsurancePolicy(Car car, String provider, LocalDate startDate, LocalDate endDate) {
@@ -37,4 +39,12 @@ public class InsurancePolicy {
     public void setStartDate(LocalDate startDate) { this.startDate = startDate; }
     public LocalDate getEndDate() { return endDate; }
     public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+
+    public boolean isExpiryNotified() {
+        return expiryNotified;
+    }
+
+    public void setExpiryNotified(boolean expiryNotified) {
+        this.expiryNotified = expiryNotified;
+    }
 }

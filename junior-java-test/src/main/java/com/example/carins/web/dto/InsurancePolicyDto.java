@@ -6,5 +6,6 @@ public record InsurancePolicyDto(
         Long carId,
         String provider,
         String startDate,
-        String endDate
+        String endDate,
+        Boolean expiredNote
 ) {}
